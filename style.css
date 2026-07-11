@@ -1,0 +1,198 @@
+:root {
+  --bg: #0c110d;
+  --bg-elev-1: #121810;
+  --bg-elev-2: #182018;
+  --border: rgba(230, 220, 200, 0.08);
+  --border-strong: rgba(230, 220, 200, 0.16);
+  --text-primary: #ece6d8;
+  --text-secondary: #a39c88;
+  --text-tertiary: #6f6a5a;
+  --accent: #e0a458;
+  --accent-soft: rgba(224, 164, 88, 0.14);
+  --accent-strong: rgba(224, 164, 88, 0.35);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-5) var(--space-3);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* textura sutil + vinheta, dá profundidade sem ficar chapado */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(224, 164, 88, 0.06), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(90, 120, 70, 0.08), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+canvas#fireflies {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* brilho que segue o mouse, tipo luz de lanterna suave */
+#glow {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-soft), transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  filter: blur(10px);
+}
+
+.container {
+  width: 100%;
+  max-width: 460px;
+  position: relative;
+  z-index: 1;
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: var(--space-5);
+}
+
+.avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: var(--space-3);
+  border: 2px solid var(--border-strong);
+  box-shadow: 0 0 0 6px var(--accent-soft);
+}
+
+.profile h1 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--text-primary);
+}
+
+.profile h1 .paw {
+  color: var(--accent);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: var(--space-1);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.link-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-elev-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.link-card:hover {
+  background: var(--bg-elev-2);
+  border-color: var(--accent-strong);
+  transform: translateY(-1px);
+}
+
+.link-card:active {
+  transform: translateY(0);
+}
+
+.link-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.link-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.link-desc {
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-icon {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  margin-left: var(--space-3);
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-tertiary);
+  padding: var(--space-4);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+}
+
+footer {
+  text-align: center;
+  margin-top: var(--space-5);
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+
+footer .paw {
+  color: var(--accent);
+}
