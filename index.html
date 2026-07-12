@@ -20,9 +20,36 @@
 
     <div id="links" class="links"></div>
 
+    <button id="btn-contato" class="btn-contato">✉️ Reportar um problema</button>
+
     <footer>
       <p>feito na toca <span class="paw">🐾</span></p>
     </footer>
+  </div>
+
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Fale comigo</h2>
+        <button id="modal-fechar" class="modal-fechar" aria-label="Fechar">✕</button>
+      </div>
+      <form id="form-contato">
+        <label for="c-nome">Nome</label>
+        <input type="text" id="c-nome" required>
+
+        <label for="c-email">Seu email</label>
+        <input type="email" id="c-email" required>
+
+        <label for="c-titulo">Título</label>
+        <input type="text" id="c-titulo" required>
+
+        <label for="c-mensagem">Mensagem</label>
+        <textarea id="c-mensagem" rows="4" required></textarea>
+
+        <button type="submit" class="btn-enviar">Enviar</button>
+        <p id="form-status" class="form-status"></p>
+      </form>
+    </div>
   </div>
 
   <script>
@@ -106,6 +133,61 @@
       }
     }
     carregarLinks();
+
+    // modal de contato
+    const overlay = document.getElementById('modal-overlay');
+    const form = document.getElementById('form-contato');
+    const status = document.getElementById('form-status');
+
+    document.getElementById('btn-contato').addEventListener('click', () => {
+      overlay.classList.add('aberto');
+    });
+    document.getElementById('modal-fechar').addEventListener('click', fecharModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) fecharModal();
+    });
+
+    function fecharModal() {
+      overlay.classList.remove('aberto');
+      status.textContent = '';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.btn-enviar');
+      btn.disabled = true;
+      status.textContent = 'Enviando...';
+      status.className = 'form-status';
+
+      try {
+        const res = await fetch('/api/contato', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nome: document.getElementById('c-nome').value,
+            email: document.getElementById('c-email').value,
+            titulo: document.getElementById('c-titulo').value,
+            mensagem: document.getElementById('c-mensagem').value,
+          }),
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          status.textContent = 'Mensagem enviada, valeu!';
+          status.className = 'form-status ok';
+          form.reset();
+          setTimeout(fecharModal, 1800);
+        } else {
+          status.textContent = data.error || 'Erro ao enviar.';
+          status.className = 'form-status erro';
+        }
+      } catch (err) {
+        status.textContent = 'Erro de conexão.';
+        status.className = 'form-status erro';
+      } finally {
+        btn.disabled = false;
+      }
+    });
   </script>
 </body>
 </html>
