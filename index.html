@@ -178,7 +178,7 @@
           form.reset();
           setTimeout(fecharModal, 1800);
         } else {
-          status.textContent = data.error || 'Erro ao enviar.';
+          status.textContent = (data.error || 'Erro ao enviar.') + (data.detalhe ? ' — ' + data.detalhe : '');
           status.className = 'form-status erro';
         }
       } catch (err) {

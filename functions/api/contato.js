@@ -36,7 +36,9 @@ export async function onRequestPost(context) {
   });
 
   if (!resendRes.ok) {
-    return Response.json({ error: "Falha ao enviar a mensagem." }, { status: 502 });
+    const detalhe = await resendRes.text();
+    console.log("Resend error:", resendRes.status, detalhe);
+    return Response.json({ error: "Falha ao enviar a mensagem.", detalhe }, { status: 502 });
   }
 
   return Response.json({ ok: true });
