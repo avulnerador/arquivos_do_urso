@@ -143,11 +143,22 @@ canvas#fireflies {
   transform: translateY(0);
 }
 
+.link-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-right: var(--space-3);
+  border: 1px solid var(--border-strong);
+}
+
 .link-info {
   display: flex;
   flex-direction: column;
   gap: 2px;
   min-width: 0;
+  flex: 1;
 }
 
 .link-title {
